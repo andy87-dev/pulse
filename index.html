@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Finint Pulse - Startup Funding</title>
+<style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9fbfe;
+    color: #222;
+  }
+  /* Header */
+  header {
+    background: #0E1D33;
+    color: white;
+    padding: 18px 40px;
+    font-weight: 500;
+    font-size: 2.2rem;
+    position: relative;
+    text-align: center;
+  }
+  header small {
+    display: block;
+    font-weight: 400;
+    font-size: 1.1rem;
+    margin-top: 6px;
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+
+  /* Container */
+  .container {
+    max-width: 1080px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  /* Intro Sections */
+  .intro-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 36px;
+    gap: 20px;
+  }
+  .intro-section:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+  .intro-image {
+    flex: 1 1 50%;
+  }
+  .intro-image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgb(25 118 210 / 0.25);
+    object-fit: cover;
+    height: 220px;
+  }
+  .intro-text {
+    flex: 1 1 50%;
+    font-size: 1.1rem;
+    color: #444;
+  }
+  .intro-text h2 {
+    margin-top: 0;
+    font-weight: 600;
+    color: #0d47a1;
+  }
+  .intro-text p {
+    margin-top: 8px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Statistiche */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 40px 0;
+  }
+  .stat {
+    background: white;
+    padding: 30px 28px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgb(25 118 210 / 0.1);
+    width: 180px;
+    text-align: center;
+  }
+  .stat h2 {
+    font-size: 3rem;
+    margin: 0;
+    color: #0d47a1;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .stat p {
+    margin-top: 8px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #555;
+  }
+
+  /* Testimonianze */
+  .testimonials {
+    max-width: 900px;
+    margin: 40px auto 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .testimonial {
+    background: white;
+    padding: 18px 24px;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgb(25 118 210 / 0.1);
+    font-style: italic;
+    color: #333;
+    position: relative;
+  }
+  .testimonial span {
+    display: block;
+    margin-top: 12px;
+    font-style: normal;
+    font-weight: 600;
+    color: #0d47a1;
+    text-align: right;
+  }
+
+  /* Bottone start */
+  #startBtn {
+    display: block;
+    margin: 0 auto 60px;
+    padding: 18px 48px;
+    background: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 32px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgb(25 118 210 / 0.4);
+    transition: background 0.3s ease;
+  }
+  #startBtn:hover {
+    background: #0d47a1;
+  }
+
+  /* Form container */
+  #formContainer {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    background: white;
+    padding: 30px 32px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgb(25 118 210 / 0.1);
+    display: none;
+  }
+
+  /* Domande */
+  .question-box {
+    margin-bottom: 22px;
+  }
+  .question-text {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.15rem;
+    color: #0d47a1;
+  }
+  textarea, input[type="text"], select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 2px solid #1976d2;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+  }
+  textarea:focus, input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #0d47a1;
+    box-shadow: 0 0 8px #0d47a1aa;
+  }
+
+  /* Pulsanti submit/cancel */
+  .submitBtn, .cancelBtn {
+    font-size: 1.15rem;
+    padding: 12px 40px;
+    border-radius: 28px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 0 12px;
+    transition: background 0.3s ease;
+  }
+  .submitBtn {
+    background: #1976d2;
+    color: white;
+    box-shadow: 0 5px 15px rgb(25 118 210 / 0.3);
+  }
+  .submitBtn:hover {
+    background: #0d47a1;
+  }
+  .cancelBtn {
+    background: #ddd;
+    color: #444;
+  }
+  .cancelBtn:hover {
+    background: #bbb;
+  }
+
+  /* Scorecard */
+  #scorecard {
+    max-width: 900px;
+    margin: 0 auto 80px;
+    background: white;
+    padding: 36px 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 26px rgb(25 118 210 / 0.15);
+    display: none;
+  }
+  #scorecard h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #0d47a1;
+  }
+
+  /* Barra valutazioni */
+  .bar-horizontal-container {
+    margin-bottom: 20px;
+  }
+  .bar-label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: #0d47a1;
+  }
+  .bar-horizontal {
+    background: #e3f2fd;
+    border-radius: 12px;
+    height: 28px;
+    width: 100%;
+    overflow: hidden;
+  }
+  .bar-fill {
+    background: #1976d2;
+    height: 100%;
+    line-height: 28px;
+    color: white;
+    font-weight: 600;
+    padding-left: 14px;
+    white-space: nowrap;
+    transition: width 0.8s ease;
+  }
+
+  /* Messaggio di ringraziamento */
+  .alert-message {
+    margin-top: 30px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0d47a1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .alert-message span:first-child {
+    font-size: 1.6rem;
+  }
+  .practice-number {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #444;
+  }
+
+  /* Roadmap */
+  #roadmapWrapper {
+    margin-top: 40px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #roadmapTitle {
+    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 14px;
+    color: #0d47a1;
+    text-align: center;
+  }
+  #roadmap {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: auto;
+    position: relative;
+    padding: 12px 0;
+  }
+  #roadmap::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 6px;
+    background: #e3f2fd;
+    border-radius: 8px;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
+  .roadmap-step {
+    background: #e3f2fd;
+    width: 22%;
+    padding: 18px 12px;
+    border-radius: 16px;
+    text-align: center;
+    position: relative;
+    font-weight: 600;
+    color: #1976d2;
+    z-index: 1;
+    cursor: default;
+    user-select: none;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .roadmap-step.active {
+    background: #1976d2;
+    color: white;
+  }
+  .roadmap-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -11%;
+    width: 22%;
+    height: 6px;
+    background: inherit;
+    border-radius: 8px;
+    z-index: -1;
+    transform: translateY(-50%);
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+  <header>
+    <div class="logo">
+      <img src="Immagine1.png" alt="Finint Pulse Logo">
+      <div>
+        
+  </header>
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+
+  <div class="intro-section">
+    <div class="intro-image">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Innovazione"/>
+    </div>
+    <div class="intro-text">
+      <h2>Innovazione al centro</h2>
+      <p>Supportiamo startup con idee rivoluzionarie che puntano a cambiare il mondo.</p>
+    </div>
+  </div>
+
+  <div class="intro-section">
+    <div class="intro-image">
+      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80" alt="Team"/>
+    </div>
+    <div class="intro-text">
+      <h2>Team sartoriale</h2>
+      <p>Un team esperto e appassionato lavora con te passo dopo passo per il successo della tua startup.</p>
+    </div>
+  </div>
+
+  <div class="intro-section">
+    <div class="intro-image">
+      <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" alt="Business"/>
+    </div>
+    <div class="intro-text">
+      <h2>Crescita e risultati</h2>
+      <p>Connettiamo le startup con risorse strategiche per garantire scalabilità e successo sul mercato.</p>
+    </div>
+  </div>
+
+
+
+  <div class="intro-section">
+    <div class="intro-image">
+      <img src="C:\Users\toso01\Desktop\differenza-tra-startup-e-impresa.jpg"/>
+    </div>
+    <div class="intro-text">
+      <h2>Atelier del Venture Capital</h2>
+      <p>Dove l'intuizione incontra l'investimento: qui finanziamo il futuro, un'idea alla volta .</p>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <div class="stats" style="margin-bottom: 70px;">
+    <div class="stat">
+      <h2>248</h2>
+      <p>Aziende analizzate</p>
+    </div>
+    <div class="stat">
+      <h2>23</h2>
+      <p>Aziende di cui siamo diventati partner</p>
+    </div>
+    <div class="stat">
+      <h2>72</h2>
+      <p>Aziende che abbiamo contribuito a far crescere</p>
+    </div>
+  </div>
+
+
+
+<div class="testimonials">
+      <h2>✍️ Cosa dicono di noi</h2>
+
+<div class="testimonial">
+        <p>"Il loro mindset strategico e il loro engagement, hanno fatto la differenza."</p>
+        <span>- Stefano Lavori, CEO di Mela</span>
+      </div>
+
+      <div class="testimonial">
+        <p>"La professionalità di Finint Pulse ci ha permesso di crescere, trovare soluzioni e sviluppare le nostre idee."</p>
+        <span>- Luca Bianchi, CEO di TechNova</span>
+      </div>
+      <div class="testimonial">
+        <p>"Grazie al loro supporto strategico abbiamo trovato nuovi investitori internazionali."</p>
+        <span>- Maria Rossi, Fondatrice di GreenWave</span>
+      </div>
+      <div class="testimonial">
+        <p>"Il loro approccio chiaro e puntuale ci ha aiutato a definire la nostra exit strategy."</p>
+        <span>- Paolo Verdi, Co-Founder di SafeHealth</span>
+      </div>
+    </div>
+
+
+
+
+
+
+
+  <button id="startBtn">Candida qui la tua startup</button>
+
+  <div id="formContainer">
+    <form id="startupForm">
+      <div class="question-box">
+        <div class="question-text">Qual'è l'idea del tuo business?</div>
+        <textarea name="idea" required rows="3"></textarea>
+      </div>
+
+      <div class="question-box">
+       <div class="question-text">Qual è l'anno di fondazione della startup?</div>
+          <select id="anno" required>
+            <option value="" disabled selected>Seleziona l'anno</option>
+            <option>Prima del 2020</option><option>2021</option>
+            <option>2022</option><option>2023</option><option>2024</option>
+          </select>
+        </div>
+
+      <div class="question-box">
+        <div class="question-text">Chi sono i membri fondatori e/o titolari di quote?</div>
+        <textarea name="problema" required rows="3"></textarea>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text">Qual è il tuo mercato di riferimento?</div>
+        <input type="text" name="mercato" required />
+      </div>
+
+      <div class="question-box">
+        <div class="question-text">Chi sono i tuoi concorrenti principali?</div>
+        <textarea name="concorrenti" required rows="2"></textarea>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text">Descrivi brevemente la tua idea e il beneficio che la tua startup vorrebbe portare</div>
+        <textarea name="vantaggio" required rows="2"></textarea>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text">Qual è il tuo modello di business?</div>
+        <select name="modelloBusiness" required>
+          <option value="" disabled selected>Seleziona modello</option>
+          <option value="B2B">B2B</option>
+          <option value="B2C">B2C</option>
+          <option value="Marketplace">Marketplace</option>
+          <option value="SaaS">SaaS</option>
+          <option value="Altro">Altro</option>
+        </select>
+      </div>
+
+      <div class="question-box">
+        <div class="question-text">Qual'è la tua strategia di crescita?</div>
+        <textarea name="strategiaCrescita" required rows="3"></textarea>
+      </div>
+
+ 
+
+      <div class="question-box">
+        <div class="question-text">Che cosa cerchi?</div>
+        <select name="cheCerc" required>
+          <option value="" disabled selected>Seleziona</option>
+          <option value="Finanziamento">Finanziamento</option>
+          <option value="Investitore">Investitore</option>
+          <option value="Partnership">Partnership</option>
+        </select>
+      </div>
+
+<div class="question-box">
+        <div class="question-text">Di che importo avrebbe bisogno la tua realtà?</div>
+        <select name="cheCerc" required>
+          <option value="" disabled selected>Seleziona</option>
+          <option value="da 1 a 100k">da 1 a 100k</option>
+          <option value="da 100k a 500k">da 100k a 500k</option>
+          <option value="Oltre 500k">Oltre 500k</option>
+        </select>
+      </div>
+
+
+      <div class="question-box">
+        <div class="question-text">Allega qui i seguenti documenti (Business Case, Principali indicatori, ecc )</div>
+        <input type="file" name="allegaDoc" accept=".pdf,.doc,.docx,.ppt,.pptx" />
+      </div>
+
+      <div style="text-align:center; margin-top: 30px;">
+        <button type="submit" class="submitBtn">Invia candidatura</button>
+        <button type="button" id="cancelBtn" class="cancelBtn">Annulla</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="scorecard">
+    <h2>Valutazione della tua startup</h2>
+    <div id="scoreResults"></div>
+    <div class="alert-message">
+      <span>👍</span>
+      <span>Grazie per esserti candidato: il nostro team valuterà al più presto la tua documentazione.</span>
+      <span class="practice-number">Numero di pratica 702</span>
+    </div>
+  </div>
+
+  <div id="roadmapWrapper" style="display:none;">
+    <h3 id="roadmapTitle">Segui la tua candidatura</h3>
+    <div id="roadmap">
+      <div class="roadmap-step active">Candidatura inviata</div>
+      <div class="roadmap-step">Presa in carico</div>
+      <div class="roadmap-step">Analisi</div>
+      <div class="roadmap-step">Feedback</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const startBtn = document.getElementById('startBtn');
+  const formContainer = document.getElementById('formContainer');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const scorecard = document.getElementById('scorecard');
+  const scoreResults = document.getElementById('scoreResults');
+  const roadmapWrapper = document.getElementById('roadmapWrapper');
+  const form = document.getElementById('startupForm');
+
+  startBtn.onclick = () => {
+    formContainer.style.display = 'block';
+    startBtn.style.display = 'none';
+    scorecard.style.display = 'none';
+    roadmapWrapper.style.display = 'none';
+  };
+  cancelBtn.onclick = () => {
+    formContainer.style.display = 'none';
+    startBtn.style.display = 'block';
+    scorecard.style.display = 'none';
+    roadmapWrapper.style.display = 'none';
+  };
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+
+    // Simulazione valutazione punteggi (random per demo)
+    const scores = {
+      'Team': Math.floor(Math.random() * 101),
+      'Tecnologia': Math.floor(Math.random() * 101),
+      'Modello di business': Math.floor(Math.random() * 101),
+      'Mercato': Math.floor(Math.random() * 101),
+      'Compliance': Math.floor(Math.random() * 101),
+      'Traction': Math.floor(Math.random() * 101),
+      'Finanze': Math.floor(Math.random() * 101),
+      'Scalabilità': Math.floor(Math.random() * 101),
+      'Exit strategy': Math.floor(Math.random() * 101)
+    };
+
+    scoreResults.innerHTML = '';
+    for (const [key, val] of Object.entries(scores)) {
+      scoreResults.innerHTML += `
+        <div class="bar-horizontal-container">
+          <div class="bar-label">${key}: ${val}%</div>
+          <div class="bar-horizontal">
+            <div class="bar-fill" style="width:${val}%; max-width: 100%">${val}%</div>
+          </div>
+        </div>
+      `;
+    }
+
+    formContainer.style.display = 'none';
+    scorecard.style.display = 'block';
+    roadmapWrapper.style.display = 'block';
+  };
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
